@@ -44,7 +44,12 @@ US03 | Como UX designer, eu quero fazer uma interface intuitiva para facilitar a
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+<div align="center">
+  <sub>FIGURA 2 - Modelo Lógico</sub><br>
+  <img src= "../assets/diagrama.png" width="100%" 
+  alt="diagrama"><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
 
 *Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
 
