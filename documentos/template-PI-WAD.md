@@ -25,14 +25,12 @@ Esse sistema será uma plataforma para a criação de eventos de forma a simplif
 
 <div align="center">
   <sub>FIGURA 1 - Amélia</sub><br>
-  <img src= "assets/persona_amelia.png" width="100%" 
+  <img src= "../assets/persona_1_amelia.png" width="100%" 
   alt="Persona"><br>
   <sup>Fonte: Material produzido pelos autores, 2025</sup>
   </div>
 
 ### 2.2. User Stories (Semana 01)
-
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a referência USXX para numeração (US01, US02, US03, ...). Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST de 1 User Storie prioritária.*
 
 \# | Story | I | N | V | E | S | T |
 ---| --- | --- | --- | --- | --- | --- | --- 
