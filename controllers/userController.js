@@ -1,6 +1,6 @@
 // controllers/userController.js
 
-const userService = require('../services/userService');
+const userModel = require('../models/userModel');
 
 const getAllUsers = async (req, res) => {
   try {

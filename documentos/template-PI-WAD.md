@@ -104,7 +104,12 @@ FOREIGN KEY (id_evento) REFERENCES evento(id)
 
 ### 3.3. Wireframes (Semana 03)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+<div align="center">
+  <sub>FIGURA 3 - Amélia</sub><br>
+  <img src= "../assets/persona_1_amelia.png" width="100%" 
+  alt="Persona"><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
 
 ### 3.4. Guia de estilos (Semana 05)
 
