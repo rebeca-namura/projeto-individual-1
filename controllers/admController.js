@@ -2,15 +2,6 @@
 
 const userModel = require('../models/admModel');
 
-const getAllAdms = async (req, res) => {
-  try {
-    const adms = await userModel.getAllAdms();
-    res.status(200).json(adms);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 const getAdmById = async (req, res) => {
   try {
     const adm = await userModel.getAdmById(req.params.id);
