@@ -86,7 +86,7 @@ FOREIGN KEY (id_evento) REFERENCES evento(id)
 ```
 [Schema](../assets/bd.sql)
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
@@ -105,9 +105,23 @@ FOREIGN KEY (id_evento) REFERENCES evento(id)
 ### 3.3. Wireframes (Semana 03)
 
 <div align="center">
-  <sub>FIGURA 3 - Amélia</sub><br>
-  <img src= "../assets/persona_1_amelia.png" width="100%" 
-  alt="Persona"><br>
+  <sub>FIGURA 4 - Tela 1</sub><br>
+  <img src= "../assets/tela_cracao_evento.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+<div align="center">
+  <sub>FIGURA 5 - Tela 2</sub><br>
+  <img src= "../assets/tela_eventos.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+  <div align="center">
+  <sub>FIGURA 6 - Tela 3</sub><br>
+  <img src= "../assets/tela_inscrição.png" width="100%" 
+  alt=""><br>
   <sup>Fonte: Material produzido pelos autores, 2025</sup>
   </div>
 
