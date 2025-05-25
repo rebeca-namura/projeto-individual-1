@@ -50,7 +50,7 @@ const updateParticipante = async (req, res) => {
 
 const deleteParticipante = async (req, res) => {
   try {
-    const deletedParticipante = await ParticipanteModel.deleteParticipante(req.params.id);
+    const deletedParticipante = await participanteModel.deleteParticipante(req.params.id);
     if (deletedParticipante) {
       res.status(200).json(deletedParticipante);
     } else {
