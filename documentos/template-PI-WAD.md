@@ -89,7 +89,12 @@ FOREIGN KEY (id_evento) REFERENCES evento(id)
 
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+<div align="center">
+  <sub>FIGURA 3 - Diagrama MVC</sub><br>
+  <img src= "../assets/diagrama-mvc.png" width="100%" 
+  alt="diagrama"><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
 
 ### 3.2. Arquitetura (Semana 5)
 
