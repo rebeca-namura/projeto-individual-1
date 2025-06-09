@@ -20,7 +20,7 @@
   // Função para buscar usuários da API e renderizar na tabela
   async function fetchUsers() {
     try {
-      const response = await fetch('/users');
+      const response = await fetch('/adm');
       if (!response.ok) {
         throw new Error('Erro ao buscar usuários');
       }

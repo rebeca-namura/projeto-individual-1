@@ -1,19 +1,22 @@
 // server.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const routes = require('./routes');
+const express = require("express");
+const path = require("path");
+
+const routes = require('./routes/index.js');
 
 const app = express();
 const port = 3200;
 
 // Middlewares
-app.use(cors());
-app.use(bodyParser.json());
 
 // Usando as rotas definidas
-app.use('/api', routes);
+app.use("/", routes);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+

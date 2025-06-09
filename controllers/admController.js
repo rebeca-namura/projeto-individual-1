@@ -52,6 +52,8 @@ const deleteAdm = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   getAllAdms,
   getAdmById,

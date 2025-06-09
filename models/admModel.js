@@ -30,4 +30,4 @@ class Adm {
   }
 }
 
-module.exports = adm;
+module.exports = aAdm;
