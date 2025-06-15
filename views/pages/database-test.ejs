@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Conexão com Banco de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; text-align: center; }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #d1ecf1; color: #0c5460; }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #0056b3; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th { background: #f8f9fa; }
+        .section { margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗄️ Teste de Conexão com Banco de Dados</h1>
+        
+        <div id="status" class="status loading">
+            Testando conexão...
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <button class="btn" onclick="testRoutes()">🔄 Testar Rotas</button>
+            <button class="btn" onclick="testDatabase()">🗄️ Testar Banco</button>
+            <button class="btn" onclick="loadData()">📊 Carregar Dados</button>
+        </div>
+
+        <div class="section">
+            <h2>👥 Administradores</h2>
+            <div id="admData">Clique em "Carregar Dados" para ver os administradores</div>
+        </div>
+
+        <div class="section">
+            <h2>📅 Eventos</h2>
+            <div id="eventoData">Clique em "Carregar Dados" para ver os eventos</div>
+        </div>
+
+        <div class="section">
+            <h2>👤 Participantes</h2>
+            <div id="participanteData">Clique em "Carregar Dados" para ver os participantes</div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Programações</h2>
+            <div id="programacaoData">Clique em "Carregar Dados" para ver as programações</div>
+        </div>
+    </div>
+
+    <script>
+        // Test if routes are working
+        async function testRoutes() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = 'Testando rotas...';
+
+            try {
+                const response = await fetch('/test');
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ Rotas funcionando: ' + data.message;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '❌ Erro nas rotas: ' + data.message;
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ Erro ao testar rotas: ' + error.message;
+            }
+        }
+
+        // Test database connection
+        async function testDatabase() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status loading';
+            statusDiv.innerHTML = 'Testando conexão com banco de dados...';
+
+            try {
+                const response = await fetch('/test-connection');
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.className = 'status success';
+                    statusDiv.innerHTML = '✅ Banco conectado: ' + data.message;
+                } else {
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = '❌ Erro no banco: ' + data.message;
+                }
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = '❌ Erro ao conectar banco: ' + error.message;
+            }
+        }
+
+        // Load data from all tables
+        async function loadData() {
+            await loadTable('adm', 'admData', 'administradores');
+            await loadTable('evento', 'eventoData', 'eventos');
+            await loadTable('participante', 'participanteData', 'participantes');
+            await loadTable('programacao', 'programacaoData', 'programações');
+        }
+
+        // Load data from specific table
+        async function loadTable(endpoint, containerId, tableName) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = 'Carregando ' + tableName + '...';
+
+            try {
+                const response = await fetch('/' + endpoint);
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+                }
+                
+                const data = await response.json();
+
+                if (Array.isArray(data) && data.length > 0) {
+                    container.innerHTML = createTable(data);
+                } else if (data.error) {
+                    container.innerHTML = '<div class="error">Erro: ' + data.error + '</div>';
+                } else {
+                    container.innerHTML = '<div>Nenhum registro encontrado</div>';
+                }
+            } catch (error) {
+                container.innerHTML = '<div class="error">Erro ao carregar ' + tableName + ': ' + error.message + '</div>';
+            }
+        }
+
+        // Create HTML table from data
+        function createTable(data) {
+            if (!data || data.length === 0) return '<div>Nenhum dado encontrado</div>';
+            
+            const keys = Object.keys(data[0]);
+            let html = '<table><thead><tr>';
+            
+            keys.forEach(key => {
+                html += '<th>' + key + '</th>';
+            });
+            html += '</tr></thead><tbody>';
+            
+            data.forEach(row => {
+                html += '<tr>';
+                keys.forEach(key => {
+                    let value = row[key];
+                    if (value === null || value === undefined) {
+                        value = '-';
+                    } else if (key.includes('data') && value) {
+                        value = new Date(value).toLocaleString('pt-BR');
+                    }
+                    html += '<td>' + value + '</td>';
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Test routes on page load
+        window.addEventListener('load', testRoutes);
+    </script>
+</body>
+</html>

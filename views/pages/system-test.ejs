@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Testes - Gerenciador de Eventos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: auto;
+            animation: pulse 2s infinite;
+        }
+
+        .status-connected { background: #28a745; }
+        .status-error { background: #dc3545; }
+        .status-loading { background: #ffc107; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-results {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .test-item:hover {
+            background: #f8f9fa;
+        }
+
+        .test-icon {
+            font-size: 20px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .test-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .test-status {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .btn-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🎯 Sistema de Testes</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/database-test">Teste Simples</a>
+                <a href="/home">Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('overview')">📊 Visão Geral</div>
+            <div class="tab" onclick="showTab('database')">🗄️ Banco de Dados</div>
+            <div class="tab" onclick="showTab('api')">🔌 API Tests</div>
+            <div class="tab" onclick="showTab('performance')">⚡ Performance</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="dashboard">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🔗</div>
+                        <div class="card-title">Status da Conexão</div>
+                        <div id="connectionStatus" class="status-indicator status-loading"></div>
+                    </div>
+                    <div id="connectionInfo">
+                        <div class="loading"></div> Verificando conexão...
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="testConnection()">
+                            🔄 Testar Conexão
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">Estatísticas</div>
+                    </div>
+                    <div id="statsContent">
+                        <div class="metric">
+                            <span class="metric-label">Administradores</span>
+                            <span class="metric-value" id="admCount">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Eventos</span>
+                            <span class="metric-value" id="eventoCount">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Participantes</span>
+                            <span class="metric-value" id="participanteCount">-</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label">Programações</span>
+                            <span class="metric-value" id="programacaoCount">-</span>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="loadStats()">
+                            📈 Atualizar Stats
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🧪</div>
+                        <div class="card-title">Testes Rápidos</div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-info" onclick="runAllTests()">
+                            🚀 Executar Todos
+                        </button>
+                        <button class="btn btn-warning" onclick="clearResults()">
+                            🗑️ Limpar Resultados
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Tab -->
+        <div id="database" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🗄️</div>
+                    <div class="card-title">Dados do Banco</div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="loadTableData('adm')">👥 Administradores</button>
+                    <button class="btn btn-success" onclick="loadTableData('evento')">📅 Eventos</button>
+                    <button class="btn btn-warning" onclick="loadTableData('participante')">👤 Participantes</button>
+                    <button class="btn btn-info" onclick="loadTableData('programacao')">📋 Programações</button>
+                </div>
+                <div id="tableData"></div>
+            </div>
+        </div>
+
+        <!-- API Tab -->
+        <div id="api" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔌</div>
+                    <div class="card-title">Testes de API</div>
+                </div>
+                <div id="apiTests">
+                    <div class="test-item">
+                        <div class="test-icon">🔗</div>
+                        <div class="test-name">Teste de Rotas</div>
+                        <div class="test-status status-pending" id="routeTest">Pendente</div>
+                    </div>
+                    <div class="test-item">
+                        <div class="test-icon">🗄️</div>
+                        <div class="test-name">Conexão com Banco</div>
+                        <div class="test-status status-pending" id="dbTest">Pendente</div>
+                    </div>
+                    <div class="test-item">
+                        <div class="test-icon">👥</div>
+                        <div class="test-name">Endpoint Administradores</div>
+                        <div class="test-status status-pending" id="admTest">Pendente</div>
+                    </div>
+                    <div class="test-item">
+                        <div class="test-icon">📅</div>
+                        <div class="test-name">Endpoint Eventos</div>
+                        <div class="test-status status-pending" id="eventoTest">Pendente</div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="runApiTests()">
+                        🧪 Executar Testes API
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Tab -->
+        <div id="performance" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">Teste de Performance</div>
+                </div>
+                <div id="performanceResults">
+                    <p>Clique no botão abaixo para executar testes de performance.</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-warning" onclick="runPerformanceTest()">
+                        ⚡ Testar Performance
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="test-results">
+            <h2>📋 Resultados dos Testes</h2>
+            <div id="testResults">
+                <p>Nenhum teste executado ainda. Use os botões acima para começar.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Test connection
+        async function testConnection() {
+            const statusIndicator = document.getElementById('connectionStatus');
+            const connectionInfo = document.getElementById('connectionInfo');
+            
+            statusIndicator.className = 'status-indicator status-loading';
+            connectionInfo.innerHTML = '<div class="loading"></div> Testando conexão...';
+
+            try {
+                const response = await fetch('/test-connection');
+                const data = await response.json();
+
+                if (data.success) {
+                    statusIndicator.className = 'status-indicator status-connected';
+                    connectionInfo.innerHTML = `
+                        <div class="alert alert-success">
+                            ✅ Conexão estabelecida com sucesso!<br>
+                            <small>Timestamp: ${new Date(data.data.timestamp).toLocaleString('pt-BR')}</small>
+                        </div>
+                    `;
+                } else {
+                    statusIndicator.className = 'status-indicator status-error';
+                    connectionInfo.innerHTML = `
+                        <div class="alert alert-error">
+                            ❌ Erro na conexão: ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusIndicator.className = 'status-indicator status-error';
+                connectionInfo.innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Erro: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Load statistics
+        async function loadStats() {
+            const endpoints = ['adm', 'evento', 'participante', 'programacao'];
+            const counts = ['admCount', 'eventoCount', 'participanteCount', 'programacaoCount'];
+
+            for (let i = 0; i < endpoints.length; i++) {
+                try {
+                    const response = await fetch('/' + endpoints[i]);
+                    const data = await response.json();
+                    document.getElementById(counts[i]).textContent = Array.isArray(data) ? data.length : '0';
+                } catch (error) {
+                    document.getElementById(counts[i]).textContent = 'Erro';
+                }
+            }
+        }
+
+        // Load table data
+        async function loadTableData(tableName) {
+            const tableData = document.getElementById('tableData');
+            tableData.innerHTML = '<div class="loading"></div> Carregando dados...';
+
+            try {
+                const response = await fetch('/' + tableName);
+                const data = await response.json();
+
+                if (Array.isArray(data) && data.length > 0) {
+                    tableData.innerHTML = createDataTable(data, tableName);
+                } else {
+                    tableData.innerHTML = `<div class="alert alert-info">Nenhum registro encontrado em ${tableName}</div>`;
+                }
+            } catch (error) {
+                tableData.innerHTML = `<div class="alert alert-error">Erro ao carregar ${tableName}: ${error.message}</div>`;
+            }
+        }
+
+        // Create data table
+        function createDataTable(data, tableName) {
+            const keys = Object.keys(data[0]);
+            let html = `<h3>📊 Dados da tabela: ${tableName}</h3>`;
+            html += '<table class="data-table"><thead><tr>';
+            
+            keys.forEach(key => {
+                html += `<th>${key}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            data.forEach(row => {
+                html += '<tr>';
+                keys.forEach(key => {
+                    let value = row[key];
+                    if (value === null || value === undefined) {
+                        value = '-';
+                    } else if (key.includes('data') && value) {
+                        value = new Date(value).toLocaleString('pt-BR');
+                    }
+                    html += `<td>${value}</td>`;
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table>';
+            return html;
+        }
+
+        // Run API tests
+        async function runApiTests() {
+            const tests = [
+                { id: 'routeTest', endpoint: '/test', name: 'Teste de Rotas' },
+                { id: 'dbTest', endpoint: '/test-connection', name: 'Conexão com Banco' },
+                { id: 'admTest', endpoint: '/adm', name: 'Endpoint Administradores' },
+                { id: 'eventoTest', endpoint: '/evento', name: 'Endpoint Eventos' }
+            ];
+
+            for (const test of tests) {
+                const statusElement = document.getElementById(test.id);
+                statusElement.textContent = 'Testando...';
+                statusElement.className = 'test-status status-pending';
+
+                try {
+                    const response = await fetch(test.endpoint);
+                    if (response.ok) {
+                        statusElement.textContent = 'Sucesso';
+                        statusElement.className = 'test-status status-success';
+                    } else {
+                        statusElement.textContent = 'Falhou';
+                        statusElement.className = 'test-status status-failed';
+                    }
+                } catch (error) {
+                    statusElement.textContent = 'Erro';
+                    statusElement.className = 'test-status status-failed';
+                }
+            }
+        }
+
+        // Run performance test
+        async function runPerformanceTest() {
+            const resultsDiv = document.getElementById('performanceResults');
+            resultsDiv.innerHTML = '<div class="loading"></div> Executando testes de performance...';
+
+            const startTime = performance.now();
+            
+            try {
+                // Test multiple endpoints
+                const promises = [
+                    fetch('/test'),
+                    fetch('/test-connection'),
+                    fetch('/adm'),
+                    fetch('/evento')
+                ];
+
+                await Promise.all(promises);
+                const endTime = performance.now();
+                const totalTime = (endTime - startTime).toFixed(2);
+
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        ⚡ Teste de performance concluído!<br>
+                        <strong>Tempo total:</strong> ${totalTime}ms<br>
+                        <strong>Endpoints testados:</strong> 4<br>
+                        <strong>Status:</strong> ${totalTime < 1000 ? 'Excelente' : totalTime < 3000 ? 'Bom' : 'Precisa melhorar'}
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="alert alert-error">
+                        ❌ Erro no teste de performance: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            await testConnection();
+            await loadStats();
+            await runApiTests();
+            
+            document.getElementById('testResults').innerHTML = `
+                <div class="alert alert-success">
+                    ✅ Todos os testes foram executados! Verifique os resultados nas abas acima.
+                </div>
+            `;
+        }
+
+        // Clear results
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '<p>Resultados limpos. Execute novos testes.</p>';
+            document.getElementById('tableData').innerHTML = '';
+            document.getElementById('performanceResults').innerHTML = '<p>Clique no botão abaixo para executar testes de performance.</p>';
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            testConnection();
+            loadStats();
+        });
+    </script>
+</body>
+</html>

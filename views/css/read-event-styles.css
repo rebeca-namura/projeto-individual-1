@@ -18,14 +18,6 @@ body {
     flex-direction: column;
 }
 
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    background: rgba(0, 0, 0, 0.1);
-}
 
 .user-icon {
     width: 40px;
@@ -73,7 +65,7 @@ body {
     padding: 40px 20px;
 }
 
-.form-container {
+.event-container {
     width: 100%;
     max-width: 600px;
     background: #4A4A4A;
@@ -82,71 +74,76 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* Formulário */
-.event-form {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+/* Título do evento */
+.event-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-align: left;
 }
 
-.form-group {
+/* Informações de data */
+.date-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.date-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.form-label {
+.date-label {
     font-size: 16px;
     font-weight: 500;
     color: #E0E0E0;
     margin-bottom: 5px;
 }
 
-.form-input,
-.form-textarea {
-    padding: 15px 20px;
-    border: none;
-    border-radius: 10px;
+.date-value {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+/* Seção de descrição */
+.description-section {
+    margin-bottom: 40px;
+}
+
+.description-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #E0E0E0;
+    margin-bottom: 15px;
+}
+
+.description-content {
     background: #6B9B9B;
+    border-radius: 10px;
+    padding: 25px;
+    min-height: 200px;
     color: #ffffff;
     font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
+    line-height: 1.5;
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+.description-content p {
+    margin: 0;
 }
 
-.form-input:focus,
-.form-textarea:focus {
-    background: #7AABAB;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 150px;
-    font-family: inherit;
-}
-
-/* Linha de datas */
-.date-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* Botão */
-.button-container {
+/* Botão de ação */
+.action-container {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
-.submit-button {
+.subscribe-button {
     padding: 15px 40px;
     background: #6B9B9B;
     color: #ffffff;
@@ -156,16 +153,16 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 140px;
+    min-width: 160px;
 }
 
-.submit-button:hover {
+.subscribe-button:hover {
     background: #7AABAB;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.submit-button:active {
+.subscribe-button:active {
     transform: translateY(0);
 }
 
@@ -182,21 +179,32 @@ body {
         max-width: 100%;
     }
     
-    .form-container {
+    .event-container {
         margin: 20px;
         padding: 30px 25px;
     }
     
-    .date-row {
-        grid-template-columns: 1fr;
-        gap: 15px;
+    .event-title {
+        font-size: 28px;
+        margin-bottom: 30px;
     }
     
-    .button-container {
+    .date-info {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    
+    .description-content {
+        padding: 20px;
+        min-height: 150px;
+    }
+    
+    .action-container {
         justify-content: center;
     }
     
-    .submit-button {
+    .subscribe-button {
         width: 100%;
     }
 }
@@ -206,29 +214,34 @@ body {
         padding: 20px 10px;
     }
     
-    .form-container {
+    .event-container {
         margin: 10px;
         padding: 25px 20px;
     }
     
-    .form-input,
-    .form-textarea {
-        padding: 12px 15px;
+    .event-title {
+        font-size: 24px;
+        margin-bottom: 25px;
+    }
+    
+    .date-label,
+    .description-label {
         font-size: 14px;
     }
     
-    .form-label {
+    .date-value {
         font-size: 14px;
     }
-}
-
-/* Estilo para campos de data */
-.form-input[type="date"] {
-    color-scheme: dark;
-}
-
-.form-input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    cursor: pointer;
+    
+    .description-content {
+        padding: 15px;
+        font-size: 14px;
+        min-height: 120px;
+    }
+    
+    .subscribe-button {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
 }
 

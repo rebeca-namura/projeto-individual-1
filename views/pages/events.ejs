@@ -1,0 +1,69 @@
+
+    <link rel="stylesheet" href="css/events-styles.css">
+
+  <div class="container">
+        <!-- Novos -->
+        <div class="section">
+            <h2 class="section-title">Novos</h2>
+            <div class="events-scroll" id="novosEvents">
+                
+            </div>
+        </div>
+
+        <!-- Todos os eventos -->
+        <div class="section">
+            <h2 class="section-title">Todos os eventos</h2>
+            <div class="events-scroll" id="todosEvents">
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scrolling with mouse wheel
+        document.querySelectorAll('.events-scroll').forEach(container => {
+            container.addEventListener('wheel', function(e) {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    this.scrollLeft += e.deltaY;
+                }
+            });
+        });
+
+        // Load real events from database
+        async function loadEvents() {
+            try {
+                const response = await fetch('/evento');
+                const events = await response.json();
+                
+                if (Array.isArray(events) && events.length > 0) {
+                    displayRealEvents(events);
+                }
+            } catch (error) {
+                console.log('Using placeholder events');
+            }
+        }
+
+        function displayRealEvents(events) {
+            const novosContainer = document.getElementById('novosEvents');
+            const todosContainer = document.getElementById('todosEvents');
+            
+            // Show latest events in "Novos"
+            const latestEvents = events.slice(-6);
+            novosContainer.innerHTML = latestEvents.map((event, index) => 
+                `<div class="event-card" onclick="openEvent(${event.id})">Evento ${index + 1}</div>`
+            ).join('');
+            
+            // Show all events in "Todos os eventos"
+            todosContainer.innerHTML = events.map((event, index) => 
+                `<div class="event-card" onclick="openEvent(${event.id})">Evento ${index + 1}</div>`
+            ).join('');
+        }
+
+        function openEvent(eventId) {
+            alert(`Abrindo evento ID: ${eventId}`);
+        }
+
+        // Load events when page loads
+        window.addEventListener('load', loadEvents);
+    </script>

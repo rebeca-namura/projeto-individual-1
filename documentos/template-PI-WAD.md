@@ -175,11 +175,286 @@ Cores de status e ação: indicam estados do sistema. Por exemplo, a cor de suce
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+  <div align="center">
+  <sub>FIGURA 10 - Listagem dos Eventos</sub><br>
+  <img src= "../assets/events.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+  Essa tela corresponde à visualização de um evento específico. Nela, o usuário pode consultar os principais dados de um evento previamente cadastrado, como o título, a data e hora de início e conclusão, além da descrição detalhada do que ocorrerá. O botão “Inscrever-se” posicionado na parte inferior direita, permitindo que o usuário confirme seu interesse e participação no evento.
+
+  <div align="center">
+  <sub>FIGURA 11 - Criar um Evento</sub><br>
+  <img src= "../assets/Add-event.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+  Nessa segunda tela há o formulário de criação de evento. Trata-se de um ambiente voltado a administradores. O formulário é composto por campos para inserir o título do evento, as datas de início e de conclusão, além de uma área de texto maior para a descrição. Ao final do formulário, há o botão “Adicionar”, responsável por registrar as informações e disponibilizar o evento no sistema.
+  
+  <div align="center">
+  <sub>FIGURA 12 - Ler Informações do Evento</sub><br>
+  <img src= "../assets/read-event.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+Por fim, a terceira tela apresenta a listagem de eventos disponíveis. Ela está organizada em duas seções principais: “Novos”, que destaca os eventos mais recentes, e “Todos os eventos”, que exibe uma grade com todos os eventos cadastrados. Cada evento é representado por um cartão simples contendo apenas seu nome. Esses cartões são interativos e levam à tela de visualização do evento quando clicados.
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+Models
+
+Adm Model (admModel.js)
+
+Este modelo representa a entidade administrador no banco de dados. Ele fornece métodos para interagir com a tabela de administradores.
+
+•
+getAll(): Retorna todos os administradores.
+
+•
+getById(id): Retorna um administrador pelo seu ID.
+
+•
+findByEmail(email): Retorna um administrador pelo seu email.
+
+•
+create(data): Cria um novo administrador com os dados fornecidos (nome, email, id_evento).
+
+•
+update(id, data): Atualiza um administrador existente pelo seu ID com os novos dados (nome, email, id_evento).
+
+•
+delete(id): Exclui um administrador pelo seu ID.
+
+Evento Model (eventoModel.js)
+
+Este modelo representa a entidade evento no banco de dados. Ele gerencia as operações CRUD para eventos e também inclui um método para buscar detalhes relacionados.
+
+•
+getAll(): Retorna todos os eventos.
+
+•
+getById(id): Retorna um evento pelo seu ID.
+
+•
+create(data): Cria um novo evento com os dados fornecidos (data, id_programa, id_adm, id_participante).
+
+•
+update(id, data): Atualiza um evento existente pelo seu ID com os novos dados.
+
+•
+delete(id): Exclui um evento pelo seu ID.
+
+•
+getEventoWithDetails(id): Retorna um evento com detalhes relacionados do administrador, participante e programação, usando JOINs.
+
+Participante Model (participanteModel.js)
+
+Este modelo representa a entidade participante no banco de dados. Ele gerencia as operações CRUD para participantes e permite buscar participantes por evento.
+
+•
+getAll(): Retorna todos os participantes.
+
+•
+getById(id): Retorna um participante pelo seu ID.
+
+•
+create(data): Cria um novo participante com os dados fornecidos (nome, email, cpf, id_evento).
+
+•
+update(id, data): Atualiza um participante existente pelo seu ID com os novos dados.
+
+•
+delete(id): Exclui um participante pelo seu ID.
+
+•
+getByEvento(eventoId): Retorna todos os participantes associados a um evento específico.
+
+Programacao Model (programacaoModel.js)
+
+Este modelo representa a entidade programação no banco de dados. Ele gerencia as operações CRUD para a programação de eventos.
+
+•
+getAll(): Retorna todas as programações.
+
+•
+getById(id): Retorna uma programação pelo seu ID.
+
+•
+create(data): Cria uma nova programação com os dados fornecidos (data, descrição, id_evento).
+
+•
+update(id, data): Atualiza uma programação existente pelo seu ID com os novos dados.
+
+•
+delete(id): Exclui uma programação pelo seu ID.
+
+•
+getByEvento(eventoId): Retorna todas as programações associadas a um evento específico.
+
+Controllers
+
+Adm Controller (admController.js)
+
+Este controlador lida com as requisições relacionadas aos administradores, utilizando o admModel para interagir com o banco de dados.
+
+•
+getAllAdms(req, res): Retorna todos os administradores. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+getAdmById(req, res): Retorna um administrador específico pelo ID fornecido nos parâmetros da requisição. Responde com status 200 se encontrado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+createAdm(req, res): Cria um novo administrador com os dados fornecidos no corpo da requisição. Responde com status 201 em caso de sucesso ou 500 em caso de erro.
+
+•
+updateAdm(req, res): Atualiza um administrador existente pelo ID e dados fornecidos. Responde com status 200 se atualizado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+deleteAdm(req, res): Exclui um administrador pelo ID fornecido. Responde com status 200 se excluído, 404 se não encontrado, ou 500 em caso de erro.
+
+Evento Controller (eventoController.js)
+
+Este controlador lida com as requisições relacionadas aos eventos, utilizando o eventoModel para interagir com o banco de dados.
+
+•
+getAllEventos(req, res): Retorna todos os eventos. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+getEventoById(req, res): Retorna um evento específico pelo ID fornecido nos parâmetros da requisição. Responde com status 200 se encontrado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+getEventoWithDetails(req, res): Retorna um evento com detalhes relacionados (administrador, participante, programação) pelo ID fornecido. Responde com status 200 se encontrado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+createEvento(req, res): Cria um novo evento com os dados fornecidos no corpo da requisição. Responde com status 201 em caso de sucesso ou 500 em caso de erro.
+
+•
+updateEvento(req, res): Atualiza um evento existente pelo ID e dados fornecidos. Responde com status 200 se atualizado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+deleteEvento(req, res): Exclui um evento pelo ID fornecido. Responde com status 200 se excluído, 404 se não encontrado, ou 500 em caso de erro.
+
+Participante Controller (participanteController.js)
+
+Este controlador lida com as requisições relacionadas aos participantes, utilizando o participanteModel para interagir com o banco de dados.
+
+•
+getAllParticipantes(req, res): Retorna todos os participantes. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+getParticipanteById(req, res): Retorna um participante específico pelo ID fornecido nos parâmetros da requisição. Responde com status 200 se encontrado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+getParticipantesByEvento(req, res): Retorna todos os participantes associados a um evento específico pelo eventoId fornecido nos parâmetros da requisição. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+createParticipante(req, res): Cria um novo participante com os dados fornecidos no corpo da requisição. Responde com status 201 em caso de sucesso ou 500 em caso de erro.
+
+•
+updateParticipante(req, res): Atualiza um participante existente pelo ID e dados fornecidos. Responde com status 200 se atualizado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+deleteParticipante(req, res): Exclui um participante pelo ID fornecido. Responde com status 200 se excluído, 404 se não encontrado, ou 500 em caso de erro.
+
+Programacao Controller (programacaoController.js)
+
+Este controlador lida com as requisições relacionadas à programação de eventos, utilizando o programacaoModel para interagir com o banco de dados.
+
+•
+getAllProgramacoes(req, res): Retorna todas as programações. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+getProgramacaoById(req, res): Retorna uma programação específica pelo ID fornecido nos parâmetros da requisição. Responde com status 200 se encontrado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+getProgramacoesByEvento(req, res): Retorna todas as programações associadas a um evento específico pelo eventoId fornecido nos parâmetros da requisição. Responde com status 200 em caso de sucesso ou 500 em caso de erro.
+
+•
+createProgramacao(req, res): Cria uma nova programação com os dados fornecidos no corpo da requisição. Responde com status 201 em caso de sucesso ou 500 em caso de erro.
+
+•
+updateProgramacao(req, res): Atualiza uma programação existente pelo ID e dados fornecidos. Responde com status 200 se atualizado, 404 se não encontrado, ou 500 em caso de erro.
+
+•
+deleteProgramacao(req, res): Exclui uma programação pelo ID fornecido. Responde com status 200 se excluído, 404 se não encontrado, ou 500 em caso de erro.
+
+Auth Controller (authController.js)
+
+Este controlador lida com a autenticação de usuários. Embora o código não tenha sido lido diretamente, a presença de authRoutes.js e a convenção de nomenclatura sugerem que ele gerencia o login.
+
+•
+login(req, res): Lida com a autenticação de usuários, provavelmente verificando credenciais e retornando um token de autenticação.
+
+Endpoints
+
+Endpoints de Administrador (/api/adm)
+
+•
+GET /api/adm/:id: Retorna um administrador específico pelo ID.
+
+•
+POST /api/adm: Cria um novo administrador.
+
+•
+PUT /api/adm/:id: Atualiza um administrador existente pelo ID.
+
+•
+DELETE /api/adm/:id: Exclui um administrador pelo ID.
+
+Endpoints de Evento (/api/evento)
+
+•
+GET /api/evento/:id: Retorna um evento específico pelo ID.
+
+•
+POST /api/evento: Cria um novo evento.
+
+•
+PUT /api/evento/:id: Atualiza um evento existente pelo ID.
+
+•
+DELETE /api/evento/:id: Exclui um evento pelo ID.
+
+Endpoints de Participante (/api/participante)
+
+•
+GET /api/participante: Retorna todos os participantes.
+
+•
+GET /api/participante/:id: Retorna um participante específico pelo ID.
+
+•
+POST /api/participante: Cria um novo participante.
+
+•
+PUT /api/participante/:id: Atualiza um participante existente pelo ID.
+
+•
+DELETE /api/participante/:id: Exclui um participante pelo ID.
+
+Endpoints de Programação (/api/programacao)
+
+•
+GET /api/programacao: Retorna todas as programações.
+
+•
+GET /api/programacao/:id: Retorna uma programação específica pelo ID.
+
+•
+GET /api/programacao/evento/:eventoId: Retorna todas as programações associadas a um evento específico.
+
+•
+POST /api/programacao: Cria uma nova programação.
+
+•
+PUT /api/programacao/:id: Atualiza uma programação existente pelo ID.
+
+•
+DELETE /api/programacao/:id: Exclui uma programação pelo ID.
+
+
 
 ### 3.7 Interface e Navegação (Semana 07)
 
