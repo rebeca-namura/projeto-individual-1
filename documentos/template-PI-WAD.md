@@ -130,10 +130,48 @@ FOREIGN KEY (id_evento) REFERENCES evento(id)
   <sup>Fonte: Material produzido pelos autores, 2025</sup>
   </div>
 
+Os três wireframes representam diferentes etapas da interação do usuário com um sistema de gerenciamento de eventos. O primeiro wireframe corresponde à tela de criação de evento. Nessa interface, o usuário pode cadastrar um novo evento preenchendo campos com informações relevantes. Há uma grande área de texto destinada à inserção das descrições principais do evento (a programação, local, etc). Logo abaixo, existe um campo menor que serve para o título do evento, e um campo adicional que pode ser utilizado para inserir informações complementares. No canto superior direito da área de texto, há um botão de ação para “Salvar” ou “Publicar” – que finaliza o processo de criação do evento.
+
+O segundo wireframe refere-se à tela de visualização geral dos eventos disponíveis. Trata-se de uma interface com um layout em grade, que exibe uma série de eventos ao usuário. No topo da tela há uma barra de navegação que contém o nome da aplicação e um campo de busca. A parte superior da grade destaca os eventos mais novos, enquanto a parte inferior apresenta outros eventos cadastrados. Cada item é representado com uma imagem ou ícone e pequenas descrições. Uma seta no canto direito indica que o usuário pode navegar lateralmente para acessar mais eventos.
+
+O terceiro wireframe mostra a tela de visualização detalhada de um evento. Esta interface é acessada quando o usuário seleciona um dos eventos listados anteriormente. No topo há um campo destacado, com o nome do evento, seguido de uma grande área de texto com os detalhes completos, como descrição, agenda, local, informações sobre os organizadores, entre outros. Ao final da página há um botão para realizar a inscrição no evento. Essa tela serve como o ponto final do fluxo, onde o usuário decide participar efetivamente do evento após conhecer todos os detalhes.
+
+
 ### 3.4. Guia de estilos (Semana 05)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
 
+<div align="center">
+  <sub>FIGURA 7 - Cores</sub><br>
+  <img src= "../assets/Colors.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+O sistema de cores é dividido em três categorias:
+
+Cores principais: utilizadas para reforçar a identidade visual (Primária e Secundária). Essas cores são ideais para botões de destaque, cabeçalhos ou links importantes.
+
+Cores neutras: aplicadas em fundos e textos para manter um layout equilibrado e limpo. Por exemplo, o fundo principal, e cores de frente são para textos de alta legibilidade.
+
+Cores de status e ação: indicam estados do sistema. Por exemplo, a cor de sucesso para confirmações, cor de processo (#FFB246) para algo em andamento, cor destrutiva para ações como deletar, e cor neutra para opções secundárias.
+
+<div align="center">
+  <sub>FIGURA 8 - Tipografia</sub><br>
+  <img src= "../assets/Fontes.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+  A tipografia é baseada na fonte Istok Web, disponível no Figma Fonts. Os títulos (headings) vão de Heading 1 (48px) a Heading 6 (16px), e os corpos de texto (body) variam de 20px a 12px, conforme sua hierarquia e importância. Os tamanhos maiores são para dar destaque e guiar a leitura do usuário, e os menores para textos auxiliares.
+
+  <div align="center">
+  <sub>FIGURA 9 - Ícones</sub><br>
+  <img src= "../assets/Icons.png" width="100%" 
+  alt=""><br>
+  <sup>Fonte: Material produzido pelos autores, 2025</sup>
+  </div>
+
+  Os ícones utilizados representam ações ou elementos recorrentes na interface e serão aplicados conforme sua função semântica. Por exemplo, o ícone Home deve indicar a página inicial, enquanto o Trash simboliza a ação de excluir.
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
